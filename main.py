@@ -1,9 +1,10 @@
+#This class is for pokemon attacks. Need to figure out stat lowering moves as well as priority modifiers
 class Move:
     def __init__(self, name, power, type):
         self.name = name
         self.power = power
         self.type = type
-
+#Basic class for pokemon. Still need to add other things like traits and stats like speed etc.
 class Pokemon:
     def __init__(self, name, type, hp, moves):
         self.name = name
@@ -18,6 +19,8 @@ class PokemonBox:
     def add_pokemon(self, pokemon):
         self.pokemon.append(pokemon)
 
+#This class handles the pokemon team and has some basic features like adding and removing pokemon
+#it also can swap pokemon with the box when that feature finally gets added.
 class PokemonTeam:
     def __init__(self):
         self.team = []
@@ -47,12 +50,13 @@ class PokemonTeam:
             print("Cannot swap Pokémon. The team is empty.")
 
 
-
+#started with 4 moves for pikachu for test purposes. Will eventually need to create a csv file with moves and pokemon type to fill later.
 thunder = Move("Thunder", 80, "Electric")
 quickAttack = Move("Quick Attack", 40, "Eletric")
 ironTail = Move("Iron Tail", 60, "Steel")
 static = Move("Static", 0, "Electric" )
 
+#created first pokemon for testing purposes
 pikachu = Pokemon("Pikachu", "Electric", 100, {thunder, quickAttack, ironTail, static})
 
 mainTeam = PokemonTeam()
@@ -60,6 +64,8 @@ pokeBox = PokemonBox()
 
 mainTeam.add_pokemon(pikachu)
 
+#proof of concept for calling pokemon namaes and potentially editing pokemon things like hp
+#also will need to figure out some sort of level system for the pokemon
 print(mainTeam.team[0].name)
 print("Type: " + mainTeam.team[0].type)
 print("The pokemon has: " + str(mainTeam.team[0].hp) + " HP")
