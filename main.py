@@ -66,6 +66,27 @@ mainTeam.add_pokemon(pikachu)
 
 #proof of concept for calling pokemon namaes and potentially editing pokemon things like hp
 #also will need to figure out some sort of level system for the pokemon
-print(mainTeam.team[0].name)
-print("Type: " + mainTeam.team[0].type)
-print("The pokemon has: " + str(mainTeam.team[0].hp) + " HP")
+x = -1
+while(x != 0):
+    print("------------------------------------------------------")
+    print("Choose one of the following options:")
+    print("1. Search for a random encounter.")
+    print("2. Make your first pokemon take 20 damage.")
+    print("3. Display the information from your first pokemon.")
+    print("0. Exit the Program")
+    print("------------------------------------------------------")
+    userInput = int(input("Type Number to make a choice: "))
+    if(userInput == 1):
+        print("Something for now")
+    elif(userInput == 2):
+        mainTeam.team[0].hp -= 20
+    elif(userInput == 3):
+        print(mainTeam.team[0].name)
+        print("Type: " + mainTeam.team[0].type)
+        print("The pokemon has: " + str(mainTeam.team[0].hp) + " HP")
+    elif(userInput == 0):
+        print("Thankyou for playing")
+        x = 0
+    else:
+        print("Not a valid option try again....")
+    
