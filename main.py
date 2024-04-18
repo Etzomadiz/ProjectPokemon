@@ -53,11 +53,12 @@ class PokemonTeam:
 def encounter_wild_pokemon():
     # List of wild Pokémon species
     random_number = random.randint(1, 10)
-    if (random_number == 1 or 4 or 7):
+    print(random_number)
+    if (random_number == 1 or random_number == 4 or random_number == 7):
         wild_pokemon_species = [pikachu]
         wild_pokemon_species = random.choice(wild_pokemon_species)
         print(f"A wild {wild_pokemon_species.name} appeared!")
-        return wild_pokemon_species
+        return wild_pokemon_species #If a pokemon is found then the value this function returns is the randomly generated pokemon.
     else:
         print("You did not find a pokemon.")
 def battleSequence(pokemon):
@@ -107,9 +108,9 @@ while(x != 0):
     print("------------------------------------------------------")
     userInput = int(input("Type Number to make a choice: "))
     if(userInput == 1):
-        randomEncounter = encounter_wild_pokemon()
+        randomEncounter = encounter_wild_pokemon()#this sets random encounter to the pokemon that is returned from the ecounter wild pokemon function.
         if (randomEncounter != None):
-            battleSequence(randomEncounter)
+            battleSequence(randomEncounter)#battle sequence displays if a random encounter takes place. 
     elif(userInput == 2):
         mainTeam.team[0].hp -= 20
     elif(userInput == 3):
