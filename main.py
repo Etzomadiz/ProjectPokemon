@@ -1,3 +1,4 @@
+import random
 #This class is for pokemon attacks. Need to figure out stat lowering moves as well as priority modifiers
 class Move:
     def __init__(self, name, power, type):
@@ -49,6 +50,15 @@ class PokemonTeam:
         else:
             print("Cannot swap Pokémon. The team is empty.")
 
+def encounter_wild_pokemon():
+    # List of wild Pokémon species
+    random_number = random.randint(1, 10)
+    if (random_number == 1 or 4 or 7):
+        wild_pokemon_species = [pikachu]
+        wild_pokemon_species = random.choice(wild_pokemon_species)
+        print(f"A wild {wild_pokemon_species.name} appeared!")
+    else:
+        print("You did not find a pokemon.")
 
 #started with 4 moves for pikachu for test purposes. Will eventually need to create a csv file with moves and pokemon type to fill later.
 thunder = Move("Thunder", 80, "Electric")
@@ -77,7 +87,7 @@ while(x != 0):
     print("------------------------------------------------------")
     userInput = int(input("Type Number to make a choice: "))
     if(userInput == 1):
-        print("Something for now")
+        encounter_wild_pokemon()
     elif(userInput == 2):
         mainTeam.team[0].hp -= 20
     elif(userInput == 3):
