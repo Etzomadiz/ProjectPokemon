@@ -52,9 +52,8 @@ class PokemonTeam:
 
 def encounter_wild_pokemon():
     # List of wild Pokémon species
-    random_number = random.randint(1, 10)
-    print(random_number)
-    if (random_number == 1 or random_number == 4 or random_number == 7):
+    random_number = random.randint(1, 10) #generates random number from 1-10
+    if (random_number == 1 or random_number == 4 or random_number == 7):# checks if the random number generated is one of the success cases and if so intitates print stratement and returns the pokemon that was encountered.
         wild_pokemon_species = [pikachu]
         wild_pokemon_species = random.choice(wild_pokemon_species)
         print(f"A wild {wild_pokemon_species.name} appeared!")
