@@ -57,8 +57,28 @@ def encounter_wild_pokemon():
         wild_pokemon_species = [pikachu]
         wild_pokemon_species = random.choice(wild_pokemon_species)
         print(f"A wild {wild_pokemon_species.name} appeared!")
+        return wild_pokemon_species
     else:
         print("You did not find a pokemon.")
+def battleSequence(pokemon):
+    x = 1
+    while(x != 0):
+        print(pokemon.name)
+        print("What would you like to do")
+        print("1. fight")
+        print("2. run")
+        print("3. bag")
+        print("4. Team")
+        userInput = int(input("Type a number to choose."))
+        if (userInput == 1):
+            print("Somthing")
+        elif(userInput == 2):
+            print("Got away safely")
+            x = 0
+        elif(userInput == 3):
+            print("Somthing else else")
+        elif(userInput == 4):
+            print("Something else else else")
 
 #started with 4 moves for pikachu for test purposes. Will eventually need to create a csv file with moves and pokemon type to fill later.
 thunder = Move("Thunder", 80, "Electric")
@@ -87,7 +107,9 @@ while(x != 0):
     print("------------------------------------------------------")
     userInput = int(input("Type Number to make a choice: "))
     if(userInput == 1):
-        encounter_wild_pokemon()
+        randomEncounter = encounter_wild_pokemon()
+        if (randomEncounter != None):
+            battleSequence(randomEncounter)
     elif(userInput == 2):
         mainTeam.team[0].hp -= 20
     elif(userInput == 3):
