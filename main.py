@@ -7,11 +7,13 @@ class Move:
         self.type = type
 #Basic class for pokemon. Still need to add other things like traits and stats like speed etc.
 class Pokemon:
-    def __init__(self, name, type, hp, moves):
+    def __init__(self, name, type, level,hp, moves, speed):
         self.name = name
         self.type = type
+        self.level = level
         self.hp = hp
         self.moves = moves
+        self.speed = speed
 
 class PokemonBox:
     def __init__(self):
@@ -80,6 +82,7 @@ def battleSequence(pokemon):
         elif(userInput == 4):
             print("Something else else else")
 
+
 #started with 4 moves for pikachu for test purposes. Will eventually need to create a csv file with moves and pokemon type to fill later.
 thunder = Move("Thunder", 80, "Electric")
 quickAttack = Move("Quick Attack", 40, "Eletric")
@@ -87,7 +90,7 @@ ironTail = Move("Iron Tail", 60, "Steel")
 static = Move("Static", 0, "Electric" )
 
 #created first pokemon for testing purposes
-pikachu = Pokemon("Pikachu", "Electric", 100, {thunder, quickAttack, ironTail, static})
+pikachu = Pokemon("Pikachu", "Electric",5, 100, {thunder, quickAttack, ironTail, static}, 19)
 
 mainTeam = PokemonTeam()
 pokeBox = PokemonBox()
