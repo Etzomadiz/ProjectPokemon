@@ -10,22 +10,17 @@ pygame.init()
 WINDOW_WIDTH = 400
 WINDOW_HEIGHT = 300
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption('Pygame Basic Window')
+pygame.display.set_caption('Move Block')
 
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-GRAY = (200, 200, 200)
+RED = (255, 0, 0)
 
-# Fonts
-font = pygame.font.Font(None, 36)
-
-# Function to draw text on the screen
-def draw_text(text, font, color, surface, x, y):
-    text_obj = font.render(text, True, color)
-    text_rect = text_obj.get_rect()
-    text_rect.center = (x, y)
-    surface.blit(text_obj, text_rect)
+# Block parameters
+BLOCK_SIZE = 10
+block_x = (WINDOW_WIDTH - BLOCK_SIZE) // 2
+block_y = (WINDOW_HEIGHT - BLOCK_SIZE) // 2
 
 # Main loop
 running = True
@@ -34,28 +29,28 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            # Check if the mouse click is within the start button
-            if start_button_rect.collidepoint(event.pos):
-                print("Start Button Clicked!")
-            # Check if the mouse click is within the exit button
-            elif exit_button_rect.collidepoint(event.pos):
-                running = False
+
+    # Move the block based on WASD key inputs
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_a]:
+        block_x -= 1
+    if keys[pygame.K_d]:
+        block_x += 1
+    if keys[pygame.K_w]:
+        block_y -= 1
+    if keys[pygame.K_s]:
+        block_y += 1
+
+    # Ensure the block stays within the window boundaries
+    block_x = max(0, min(WINDOW_WIDTH - BLOCK_SIZE, block_x))
+    block_y = max(0, min(WINDOW_HEIGHT - BLOCK_SIZE, block_y))
 
     # Clear the screen
     window.fill(WHITE)
 
-    # Draw start button
-    start_button = pygame.Rect(50, 100, 100, 50)
-    pygame.draw.rect(window, GRAY, start_button)
-    draw_text("Start", font, BLACK, window, 100, 125)
-    start_button_rect = start_button  # Get the rectangle of the start button
-
-    # Draw exit button
-    exit_button = pygame.Rect(250, 100, 100, 50)
-    pygame.draw.rect(window, GRAY, exit_button)
-    draw_text("Exit", font, BLACK, window, 300, 125)
-    exit_button_rect = exit_button  # Get the rectangle of the exit button
+    # Draw the block
+    block_rect = pygame.Rect(block_x, block_y, BLOCK_SIZE, BLOCK_SIZE)
+    pygame.draw.rect(window, RED, block_rect)
 
     # Update the display
     pygame.display.flip()
@@ -188,4 +183,3 @@ while(x != 0):
         x = 0
     else:
         print("Not a valid option try again....")
-    
