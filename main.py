@@ -1,5 +1,69 @@
 import random
-#This class is for pokemon attacks. Need to figure out stat lowering moves as well as priority modifiers
+import os
+import pygame
+import sys
+
+# Initialize Pygame
+pygame.init()
+
+# Set up the window
+WINDOW_WIDTH = 400
+WINDOW_HEIGHT = 300
+window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+pygame.display.set_caption('Pygame Basic Window')
+
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GRAY = (200, 200, 200)
+
+# Fonts
+font = pygame.font.Font(None, 36)
+
+# Function to draw text on the screen
+def draw_text(text, font, color, surface, x, y):
+    text_obj = font.render(text, True, color)
+    text_rect = text_obj.get_rect()
+    text_rect.center = (x, y)
+    surface.blit(text_obj, text_rect)
+
+# Main loop
+running = True
+while running:
+    # Event handling
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            # Check if the mouse click is within the start button
+            if start_button_rect.collidepoint(event.pos):
+                print("Start Button Clicked!")
+            # Check if the mouse click is within the exit button
+            elif exit_button_rect.collidepoint(event.pos):
+                running = False
+
+    # Clear the screen
+    window.fill(WHITE)
+
+    # Draw start button
+    start_button = pygame.Rect(50, 100, 100, 50)
+    pygame.draw.rect(window, GRAY, start_button)
+    draw_text("Start", font, BLACK, window, 100, 125)
+    start_button_rect = start_button  # Get the rectangle of the start button
+
+    # Draw exit button
+    exit_button = pygame.Rect(250, 100, 100, 50)
+    pygame.draw.rect(window, GRAY, exit_button)
+    draw_text("Exit", font, BLACK, window, 300, 125)
+    exit_button_rect = exit_button  # Get the rectangle of the exit button
+
+    # Update the display
+    pygame.display.flip()
+
+# Quit Pygame
+pygame.quit()
+sys.exit()
+
 class Move:
     def __init__(self, name, power, type):
         self.name = name
