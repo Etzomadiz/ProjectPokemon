@@ -21,6 +21,11 @@ RED = (255, 0, 0)
 BLOCK_SIZE = 10
 block_x = (WINDOW_WIDTH - BLOCK_SIZE) // 2
 block_y = (WINDOW_HEIGHT - BLOCK_SIZE) // 2
+block_speed = 0.1  # Adjust this value to change the speed of movement
+
+# Set up the clock
+clock = pygame.time.Clock()
+FPS = 60  # Frames per second
 
 # Main loop
 running = True
@@ -32,14 +37,19 @@ while running:
 
     # Move the block based on WASD key inputs
     keys = pygame.key.get_pressed()
+    dx, dy = 0, 0
     if keys[pygame.K_a]:
-        block_x -= 1
+        dx -= block_speed
     if keys[pygame.K_d]:
-        block_x += 1
+        dx += block_speed
     if keys[pygame.K_w]:
-        block_y -= 1
+        dy -= block_speed
     if keys[pygame.K_s]:
-        block_y += 1
+        dy += block_speed
+
+    # Update block position with the computed deltas
+    block_x += dx
+    block_y += dy
 
     # Ensure the block stays within the window boundaries
     block_x = max(0, min(WINDOW_WIDTH - BLOCK_SIZE, block_x))
@@ -54,6 +64,9 @@ while running:
 
     # Update the display
     pygame.display.flip()
+
+    # Cap the frame rate
+    clock.tick(FPS)
 
 # Quit Pygame
 pygame.quit()
