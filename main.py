@@ -10,7 +10,10 @@ pygame.init()
 WINDOW_WIDTH = 400
 WINDOW_HEIGHT = 300
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption('Move Block')
+pygame.display.set_caption('Pokemon shell')
+
+background_image = pygame.image.load("pokegrass.png")
+background_image = pygame.transform.scale(background_image, (WINDOW_WIDTH, WINDOW_HEIGHT))
 
 # Colors
 WHITE = (255, 255, 255)
@@ -21,7 +24,7 @@ RED = (255, 0, 0)
 BLOCK_SIZE = 10
 block_x = (WINDOW_WIDTH - BLOCK_SIZE) // 2
 block_y = (WINDOW_HEIGHT - BLOCK_SIZE) // 2
-block_speed = 0.1  # Adjust this value to change the speed of movement
+block_speed = 1  # Adjust this value to change the speed of movement
 
 # Set up the clock
 clock = pygame.time.Clock()
@@ -56,7 +59,7 @@ while running:
     block_y = max(0, min(WINDOW_HEIGHT - BLOCK_SIZE, block_y))
 
     # Clear the screen
-    window.fill(WHITE)
+    window.blit(background_image, (0, 0))
 
     # Draw the block
     block_rect = pygame.Rect(block_x, block_y, BLOCK_SIZE, BLOCK_SIZE)
