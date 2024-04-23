@@ -35,6 +35,19 @@ block_speed = 1  # Adjust this value to change the speed of movement
 # Set up the clock
 clock = pygame.time.Clock()
 FPS = 60  # Frames per second
+# Define button dimensions
+BUTTON_WIDTH = 100
+BUTTON_HEIGHT = 50
+
+# Define button positions
+exit_button_x = 50
+exit_button_y = WINDOW_HEIGHT - 100
+fight_button_x = WINDOW_WIDTH - 150
+fight_button_y = WINDOW_HEIGHT - 100
+
+# Create button rectangles
+exit_button_rect = pygame.Rect(exit_button_x, exit_button_y, BUTTON_WIDTH, BUTTON_HEIGHT)
+fight_button_rect = pygame.Rect(fight_button_x, fight_button_y, BUTTON_WIDTH, BUTTON_HEIGHT)
 
 # Function to handle wild Pokémon encounter
 def encounter_wild_pokemon():
@@ -43,11 +56,46 @@ def encounter_wild_pokemon():
         print("A wild Pokémon appeared!")
         battleScenario = True
         window.blit(battle_image, (0, 0))
-        
-        while battleScenario: 
+
+        while battleScenario:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:  # Left mouse button
+                        # Check if the mouse click is inside the exit button
+                        if exit_button_rect.collidepoint(event.pos):
+                            print("Something")
+                            battleScenario = False
+                            break
+                        # Check if the mouse click is inside the fight button
+                        elif fight_button_rect.collidepoint(event.pos):
+                            print("Something")
+                            battleScenario = False
+                            break
+                            print("Fight!")  # Replace this with your fight logic
+
+            # Clear the screen
+            window.blit(battle_image, (0, 0))
+
+
+            # Draw buttons
+            pygame.draw.rect(window, RED, exit_button_rect)
+            pygame.draw.rect(window, RED, fight_button_rect)
+
+            # Display button text
+            font = pygame.font.Font(None, 36)
+            exit_text = font.render("Exit", True, BLACK)
+            exit_text_rect = exit_text.get_rect(center=exit_button_rect.center)
+            window.blit(exit_text, exit_text_rect)
+
+            fight_text = font.render("Fight", True, BLACK)
+            fight_text_rect = fight_text.get_rect(center=fight_button_rect.center)
+            window.blit(fight_text, fight_text_rect)
+
+            # Update the display
             pygame.display.flip()
-    else:
-        print("You did not find a Pokémon.")
 
 # Define the encounter area within the background image
 encounter_area_rect = pygame.Rect((WINDOW_WIDTH - encounter_image.get_width()) // 2,(WINDOW_HEIGHT - encounter_image.get_height()) // 2,encounter_image.get_width(),encounter_image.get_height())
