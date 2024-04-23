@@ -51,6 +51,10 @@ while running:
         dy += block_speed
 
     # Update block position with the computed deltas
+
+    if dx != 0 and dy != 0:
+        dx, dy = 0, 0
+
     block_x += dx
     block_y += dy
 
