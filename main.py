@@ -1,7 +1,6 @@
-import random
-import os
 import pygame
 import sys
+import random
 
 # Initialize Pygame
 pygame.init()
@@ -12,9 +11,12 @@ WINDOW_HEIGHT = 300
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('Pokemon shell')
 
+# Load background image
 background_image = pygame.image.load("pokegrass.png")
 background_image = pygame.transform.scale(background_image, (WINDOW_WIDTH, WINDOW_HEIGHT))
 
+encounter_image = pygame.image.load("tallGrass.png")
+encounter_image = pygame.transform.scale(encounter_image, (20,20))
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -29,6 +31,19 @@ block_speed = 1  # Adjust this value to change the speed of movement
 # Set up the clock
 clock = pygame.time.Clock()
 FPS = 60  # Frames per second
+
+# Function to handle wild Pokémon encounter
+def encounter_wild_pokemon():
+    random_number = random.randint(1, 10)
+    if random_number in [1, 4, 7]:
+        print("A wild Pokémon appeared!")
+    else:
+        print("You did not find a Pokémon.")
+
+# Define the encounter area within the background image
+encounter_area_rect = pygame.Rect((WINDOW_WIDTH - encounter_image.get_width()) // 2,(WINDOW_HEIGHT - encounter_image.get_height()) // 2,encounter_image.get_width(),encounter_image.get_height())
+# Flag to track encounter status
+encounter_triggered = False
 
 # Main loop
 running = True
@@ -50,24 +65,33 @@ while running:
     if keys[pygame.K_s]:
         dy += block_speed
 
-    # Update block position with the computed deltas
-
+    # Allow movement in one direction at a time
     if dx != 0 and dy != 0:
         dx, dy = 0, 0
 
+    # Update block position with the computed deltas
     block_x += dx
     block_y += dy
 
     # Ensure the block stays within the window boundaries
     block_x = max(0, min(WINDOW_WIDTH - BLOCK_SIZE, block_x))
     block_y = max(0, min(WINDOW_HEIGHT - BLOCK_SIZE, block_y))
-
-    # Clear the screen
+    # Clear the screen with the background image
     window.blit(background_image, (0, 0))
 
+    # Check for wild Pokémon encounter
+    if encounter_area_rect.colliderect(pygame.Rect(block_x, block_y, BLOCK_SIZE, BLOCK_SIZE)):
+        if not encounter_triggered:
+            encounter_wild_pokemon()
+            encounter_triggered = True
+    else:
+        encounter_triggered = False
+    window.blit(encounter_image, (encounter_area_rect.x, encounter_area_rect.y))
     # Draw the block
     block_rect = pygame.Rect(block_x, block_y, BLOCK_SIZE, BLOCK_SIZE)
     pygame.draw.rect(window, RED, block_rect)
+
+    
 
     # Update the display
     pygame.display.flip()
