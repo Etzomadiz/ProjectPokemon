@@ -17,6 +17,10 @@ background_image = pygame.transform.scale(background_image, (WINDOW_WIDTH, WINDO
 
 encounter_image = pygame.image.load("tallGrass.png")
 encounter_image = pygame.transform.scale(encounter_image, (20,20))
+
+battle_image = pygame.image.load("battleBack.png")
+battle_image = pygame.transform.scale(battle_image, (WINDOW_WIDTH, WINDOW_HEIGHT))
+
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -37,11 +41,18 @@ def encounter_wild_pokemon():
     random_number = random.randint(1, 10)
     if random_number in [1, 4, 7]:
         print("A wild Pokémon appeared!")
+        battleScenario = True
+        window.blit(battle_image, (0, 0))
+        
+        while battleScenario: 
+            pygame.display.flip()
     else:
         print("You did not find a Pokémon.")
 
 # Define the encounter area within the background image
 encounter_area_rect = pygame.Rect((WINDOW_WIDTH - encounter_image.get_width()) // 2,(WINDOW_HEIGHT - encounter_image.get_height()) // 2,encounter_image.get_width(),encounter_image.get_height())
+encounter_area_rect.x = 20
+encounter_area_rect.y = 20
 # Flag to track encounter status
 encounter_triggered = False
 
