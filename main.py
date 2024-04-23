@@ -5,6 +5,54 @@ import random
 # Initialize Pygame
 pygame.init()
 
+class Pokemon:
+    def __init__(self, name, type, level,hp, moves, speed):
+        self.name = name
+        self.type = type
+        self.level = level
+        self.hp = hp
+        self.moves = moves
+        self.speed = speed
+class Move:
+    def __init__(self, name, power, type):
+        self.name = name
+        self.power = power
+        self.type = type
+class PokemonTeam:
+    def __init__(self):
+        self.team = []
+
+    def add_pokemon(self, pokemon):
+        if len(self.team) < 6:
+            self.team.append(pokemon)
+        else:
+            print("Cannot add more than 6 Pokémon to the team.")
+
+    def remove_pokemon(self, pokemon):
+        if pokemon in self.team:
+            self.team.remove(pokemon)
+        else:
+            print("Pokémon not found in the team.")
+
+    def swap_pokemon_with_box(self, pokemon_box, pokemon_to_swap):
+        if len(self.team) > 0:
+            # Add the chosen Pokémon from the team to the box
+            pokemon_box.add_pokemon(pokemon_to_swap)
+            self.remove_pokemon(pokemon_to_swap)
+            # Add a Pokémon from the box to the team if there's space
+            if len(pokemon_box.pokemon) > 0:
+                pokemon_to_add = pokemon_box.pokemon.pop(0)
+                self.add_pokemon(pokemon_to_add)
+        else:
+            print("Cannot swap Pokémon. The team is empty.")
+
+thunder = Move("Thunder", 80, "Electric")
+quickAttack = Move("Quick Attack", 40, "Electric")
+ironTail = Move("Iron Tail", 60, "Steel")
+static = Move("Static", 0, "Electric" )
+
+pikachu = Pokemon("Pikachu", "Electric",5, 100, {thunder, quickAttack, ironTail, static}, 19)
+
 # Set up the window
 WINDOW_WIDTH = 400
 WINDOW_HEIGHT = 300
@@ -21,6 +69,12 @@ encounter_image = pygame.transform.scale(encounter_image, (20,20))
 battle_image = pygame.image.load("battleBack.png")
 battle_image = pygame.transform.scale(battle_image, (WINDOW_WIDTH, WINDOW_HEIGHT))
 
+pikachu_sprite = pygame.image.load("pikachu_sprite2.png")
+pikachu_sprite = pygame.transform.flip(pikachu_sprite, True, False)
+pikachu_sprite = pygame.transform.scale(pikachu_sprite, (100,100))
+
+pikachu_back_sprite = pygame.image.load("pikachu_back_sprite.png")
+pikachu_back_sprite = pygame.transform.scale(pikachu_back_sprite, (100,100))
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -36,28 +90,31 @@ block_speed = 1  # Adjust this value to change the speed of movement
 clock = pygame.time.Clock()
 FPS = 60  # Frames per second
 # Define button dimensions
-BUTTON_WIDTH = 100
-BUTTON_HEIGHT = 50
+BUTTON_WIDTH = 75
+BUTTON_HEIGHT = 25
 
 # Define button positions
 exit_button_x = 50
-exit_button_y = WINDOW_HEIGHT - 100
+exit_button_y = WINDOW_HEIGHT - 50
 fight_button_x = WINDOW_WIDTH - 150
-fight_button_y = WINDOW_HEIGHT - 100
+fight_button_y = WINDOW_HEIGHT - 50
 
 # Create button rectangles
 exit_button_rect = pygame.Rect(exit_button_x, exit_button_y, BUTTON_WIDTH, BUTTON_HEIGHT)
 fight_button_rect = pygame.Rect(fight_button_x, fight_button_y, BUTTON_WIDTH, BUTTON_HEIGHT)
 
+main_white_battle_border = pygame.Rect(0,225,WINDOW_WIDTH, 75)
 # Function to handle wild Pokémon encounter
 def encounter_wild_pokemon():
     random_number = random.randint(1, 10)
     if random_number in [1, 4, 7]:
         print("A wild Pokémon appeared!")
-        battleScenario = True
-        window.blit(battle_image, (0, 0))
-
-        while battleScenario:
+        wild_pokemon_species = [pikachu]
+        wild_pokemon_species = random.choice(wild_pokemon_species)
+        battle_scenario(wild_pokemon_species)
+def battle_scenario(pokemon):
+    battleScenario = True
+    while battleScenario:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -68,29 +125,29 @@ def encounter_wild_pokemon():
                         if exit_button_rect.collidepoint(event.pos):
                             print("Something")
                             battleScenario = False
-                            break
                         # Check if the mouse click is inside the fight button
                         elif fight_button_rect.collidepoint(event.pos):
                             print("Something")
                             battleScenario = False
-                            break
                             print("Fight!")  # Replace this with your fight logic
 
             # Clear the screen
             window.blit(battle_image, (0, 0))
-
+            window.blit(pikachu_sprite, (225, 70))
+            window.blit(pikachu_back_sprite,(80,125))
 
             # Draw buttons
+            pygame.draw.rect(window, WHITE, main_white_battle_border)
             pygame.draw.rect(window, RED, exit_button_rect)
             pygame.draw.rect(window, RED, fight_button_rect)
 
             # Display button text
             font = pygame.font.Font(None, 36)
-            exit_text = font.render("Exit", True, BLACK)
+            exit_text = font.render("Fight", True, BLACK)
             exit_text_rect = exit_text.get_rect(center=exit_button_rect.center)
             window.blit(exit_text, exit_text_rect)
 
-            fight_text = font.render("Fight", True, BLACK)
+            fight_text = font.render("Run", True, BLACK)
             fight_text_rect = fight_text.get_rect(center=fight_button_rect.center)
             window.blit(fight_text, fight_text_rect)
 
@@ -99,8 +156,8 @@ def encounter_wild_pokemon():
 
 # Define the encounter area within the background image
 encounter_area_rect = pygame.Rect((WINDOW_WIDTH - encounter_image.get_width()) // 2,(WINDOW_HEIGHT - encounter_image.get_height()) // 2,encounter_image.get_width(),encounter_image.get_height())
-encounter_area_rect.x = 20
-encounter_area_rect.y = 20
+encounter_area_rect.x = 200
+encounter_area_rect.y = 50
 # Flag to track encounter status
 encounter_triggered = False
 
@@ -150,7 +207,6 @@ while running:
     block_rect = pygame.Rect(block_x, block_y, BLOCK_SIZE, BLOCK_SIZE)
     pygame.draw.rect(window, RED, block_rect)
 
-    
 
     # Update the display
     pygame.display.flip()
@@ -162,21 +218,6 @@ while running:
 pygame.quit()
 sys.exit()
 
-class Move:
-    def __init__(self, name, power, type):
-        self.name = name
-        self.power = power
-        self.type = type
-#Basic class for pokemon. Still need to add other things like traits and stats like speed etc.
-class Pokemon:
-    def __init__(self, name, type, level,hp, moves, speed):
-        self.name = name
-        self.type = type
-        self.level = level
-        self.hp = hp
-        self.moves = moves
-        self.speed = speed
-
 class PokemonBox:
     def __init__(self):
         self.pokemon = []
@@ -186,34 +227,7 @@ class PokemonBox:
 
 #This class handles the pokemon team and has some basic features like adding and removing pokemon
 #it also can swap pokemon with the box when that feature finally gets added.
-class PokemonTeam:
-    def __init__(self):
-        self.team = []
-
-    def add_pokemon(self, pokemon):
-        if len(self.team) < 6:
-            self.team.append(pokemon)
-        else:
-            print("Cannot add more than 6 Pokémon to the team.")
-
-    def remove_pokemon(self, pokemon):
-        if pokemon in self.team:
-            self.team.remove(pokemon)
-        else:
-            print("Pokémon not found in the team.")
-
-    def swap_pokemon_with_box(self, pokemon_box, pokemon_to_swap):
-        if len(self.team) > 0:
-            # Add the chosen Pokémon from the team to the box
-            pokemon_box.add_pokemon(pokemon_to_swap)
-            self.remove_pokemon(pokemon_to_swap)
-            # Add a Pokémon from the box to the team if there's space
-            if len(pokemon_box.pokemon) > 0:
-                pokemon_to_add = pokemon_box.pokemon.pop(0)
-                self.add_pokemon(pokemon_to_add)
-        else:
-            print("Cannot swap Pokémon. The team is empty.")
-
+d
 def encounter_wild_pokemon():
     # List of wild Pokémon species
     random_number = random.randint(1, 10) #generates random number from 1-10
