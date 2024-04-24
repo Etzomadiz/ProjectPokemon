@@ -60,20 +60,20 @@ window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('Pokemon shell')
 
 # Load background image
-background_image = pygame.image.load("pokegrass.png")
+background_image = pygame.image.load("tiles/pokegrass.png")
 background_image = pygame.transform.scale(background_image, (WINDOW_WIDTH, WINDOW_HEIGHT))
 
-encounter_image = pygame.image.load("tallGrass.png")
+encounter_image = pygame.image.load("tiles/tallGrass.png")
 encounter_image = pygame.transform.scale(encounter_image, (20,20))
 
-battle_image = pygame.image.load("battleBack.png")
+battle_image = pygame.image.load("tiles/battleBack.png")
 battle_image = pygame.transform.scale(battle_image, (WINDOW_WIDTH, WINDOW_HEIGHT))
 
-pikachu_sprite = pygame.image.load("pikachu_sprite2.png")
+pikachu_sprite = pygame.image.load("sprites/pikachu_sprite2.png")
 pikachu_sprite = pygame.transform.flip(pikachu_sprite, True, False)
 pikachu_sprite = pygame.transform.scale(pikachu_sprite, (100,100))
 
-pikachu_back_sprite = pygame.image.load("pikachu_back_sprite.png")
+pikachu_back_sprite = pygame.image.load("sprites/pikachu_back_sprite.png")
 pikachu_back_sprite = pygame.transform.scale(pikachu_back_sprite, (100,100))
 # Colors
 WHITE = (255, 255, 255)
